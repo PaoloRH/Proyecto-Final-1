@@ -14,16 +14,9 @@ const submit = () => {
 </script>
 
 <template>
-  <div
-    class="min-h-screen flex flex-col items-center justify-center px-4 py-10 text-white"
-    style="background: linear-gradient(-45deg, #0f172a, #1e1b4b, #3b0764, #450a0a);
-           background-size: 400% 400%;
-           animation: gradientShift 12s ease infinite;"
-  >
+  <div class="container min-h-screen flex flex-col items-center justify-center px-4 py-10 text-white">
     <!-- Encabezado -->
-    <header
-      class="flex items-center justify-between w-full max-w-4xl px-6 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md rounded-t-2xl"
-    >
+    <header class="flex items-center justify-between w-full max-w-4xl px-6 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md rounded-t-2xl">
       <h1 class="text-2xl font-extrabold tracking-wide text-yellow-300 drop-shadow-lg">
         🎓 Registrar Cliente
       </h1>
@@ -37,9 +30,7 @@ const submit = () => {
     </header>
 
     <!-- Formulario -->
-    <main
-      class="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 w-[90%] md:w-[500px] mt-10 animate-fadeIn"
-    >
+    <main class="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 w-[90%] md:w-[500px] mt-10 animate-fadeIn">
       <h2 class="text-3xl font-bold text-center mb-8 text-yellow-300 drop-shadow-md">
         🧾 Formulario Cliente
       </h2>
@@ -113,6 +104,12 @@ const submit = () => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+  background: linear-gradient( -78deg, #4c1b88, #4277BD, #36C9A9, #105293);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
 }
 
 .animate-fadeIn {

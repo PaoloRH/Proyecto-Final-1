@@ -3,88 +3,119 @@
 namespace App\Http\Controllers\Proyectos;
 
 use App\Http\Controllers\Controller;
+use App\Models\Proyecto;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProyectosController extends Controller
 {
     /**
-     * Muestra la lista de proyectos simulados.
+     * Mostrar todos los proyectos o los del cliente especificado.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $proyectos = session()->get('proyectos', []);
-        $ultimosProyectos = array_slice($proyectos, -10);
+        $clienteId = $request->query('cliente_id');
+
+        $proyectos = Proyecto::with('cliente')
+            ->when($clienteId, function ($query) use ($clienteId) {
+                $query->where('cliente_id', $clienteId);
+            })
+            ->orderBy('id', 'desc')
+            ->get();
 
         return Inertia::render('Proyectos/Index', [
-            'proyectos' => $ultimosProyectos,
+            'proyectos' => $proyectos,
+            'cliente_id' => $clienteId,
         ]);
     }
 
     /**
-     * Muestra el formulario de simulación.
+     * Mostrar el formulario para crear un nuevo proyecto.
      */
-    public function simulacion()
+    public function create()
     {
-        return Inertia::render('Proyectos/Simulacion');
+        $clientes = Cliente::orderBy('nombre')->get();
+
+        return Inertia::render('Proyectos/Create', [
+            'clientes' => $clientes,
+        ]);
     }
 
     /**
-     * Procesa los datos del formulario y calcula la simulación.
+     * Guardar un nuevo proyecto en la base de datos.
      */
-    public function calcularSimulacion(Request $request)
+    public function store(Request $request)
     {
-        $data = $request->validate([
-            'avance' => 'required|numeric|min:0|max:100',
-            'calidad' => 'required|numeric|min:0|max:100',
-            'asistencia_equipo' => 'required|numeric|min:0|max:100',
-            'hitos' => 'required|array|min:1',
-            'hitos.*' => 'numeric|min:0|max:100',
-            'etapas' => 'required|array|min:4|max:4',
-            'etapas.*' => 'numeric|min:0|max:100',
-            'entrega_final' => 'required|numeric|min:0|max:100',
-            'revision_cliente' => 'required|numeric|min:0|max:100',
+        $validated = $request->validate([
+            'nombre_proyecto' => 'required|string|max:255',
+            'cliente_id' => 'required|exists:clientes,id',
+            'descripcion' => 'nullable|string',
+            'estado' => 'nullable|string|max:50',
+            'presupuesto' => 'nullable|numeric|min:0',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'avance' => 'nullable|integer|min:0|max:100',
         ]);
 
-        $proyecto = [
-            'avance' => $data['avance'],
-            'calidad' => $data['calidad'],
-            'asistencia_equipo' => $data['asistencia_equipo'],
-            'hitos' => $data['hitos'],
-            'etapas' => $data['etapas'],
-            'entrega_final' => $data['entrega_final'],
-            'revision_cliente' => $data['revision_cliente'],
-        ];
+        Proyecto::create($validated);
 
-        // Ponderaciones personalizables
-        $pesos = [
-            'avance' => 10,
-            'calidad' => 20,
-            'asistencia_equipo' => 10,
-            'hitos' => 20,
-            'etapas' => 20,
-            'entrega_final' => 10,
-            'revision_cliente' => 10,
-        ];
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto creado correctamente.');
+    }
 
-        $sum_ponderada = 0;
-        $sum_pesos = 0;
+    /**
+     * Mostrar un proyecto específico.
+     */
+    public function show(Proyecto $proyecto)
+    {
+        $proyecto->load('cliente');
 
-        foreach ($proyecto as $modulo => $valor) {
-            $promedio = is_array($valor) ? array_sum($valor)/count($valor) : $valor;
-            $sum_ponderada += $promedio * $pesos[$modulo];
-            $sum_pesos += $pesos[$modulo];
-        }
-
-        $score_final = round($sum_ponderada / $sum_pesos, 2);
-
-        // Guardamos simulaciones en sesión
-        $proyectos = session()->get('proyectos', []);
-        $proyectos[] = array_merge($proyecto, ['score_final' => $score_final]);
-        session()->put('proyectos', $proyectos);
-
-        return Inertia::render('Proyectos/Simulacion', [
-            'resultado' => ['score_final' => $score_final],
+        return Inertia::render('Proyectos/Show', [
+            'proyecto' => $proyecto,
         ]);
+    }
+
+    /**
+     * Mostrar el formulario para editar un proyecto.
+     */
+    public function edit(Proyecto $proyecto)
+    {
+        $clientes = Cliente::orderBy('nombre')->get();
+
+        return Inertia::render('Proyectos/Edit', [
+            'proyecto' => $proyecto,
+            'clientes' => $clientes,
+        ]);
+    }
+
+    /**
+     * Actualizar un proyecto en la base de datos.
+     */
+    public function update(Request $request, Proyecto $proyecto)
+    {
+        $validated = $request->validate([
+            'nombre_proyecto' => 'required|string|max:255',
+            'cliente_id' => 'required|exists:clientes,id',
+            'descripcion' => 'nullable|string',
+            'estado' => 'nullable|string|max:50',
+            'presupuesto' => 'nullable|numeric|min:0',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'avance' => 'nullable|integer|min:0|max:100',
+        ]);
+
+        $proyecto->update($validated);
+
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado correctamente.');
+    }
+
+    /**
+     * Eliminar un proyecto.
+     */
+    public function destroy(Proyecto $proyecto)
+    {
+        $proyecto->delete();
+
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto eliminado correctamente.');
     }
 }

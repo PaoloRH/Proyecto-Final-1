@@ -18,12 +18,7 @@ const submit = () => {
 </script>
 
 <template>
-  <div
-    class="min-h-screen flex flex-col items-center justify-center px-4 py-10 text-white"
-    style="background: linear-gradient(-45deg, #0f172a, #1e1b4b, #3b0764, #450a0a);
-           background-size: 400% 400%;
-           animation: gradientShift 12s ease infinite;"
-  >
+  <div class="container min-h-screen flex flex-col items-center justify-center px-4 py-10 text-white">
     <!-- Encabezado -->
     <header
       class="flex items-center justify-between w-full max-w-4xl px-6 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md rounded-t-2xl"
@@ -117,6 +112,12 @@ const submit = () => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+  background: linear-gradient( -78deg, #4c1b88, #4277BD, #36C9A9, #105293);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
 }
 
 .animate-fadeIn {

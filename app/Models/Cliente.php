@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cliente extends Model
 {
-    use SoftDeletes;
-    
-    protected $guarded = [];
+    use HasFactory;
 
-    public function comentarios() {
+    protected $fillable = ['nombre', 'correo', 'telefono', 'direccion'];
 
-        return $this->hasMany(Comentario::class);
+    // 🔹 Relación con proyectos
+    public function proyectos()
+    {
+        return $this->hasMany(\App\Models\Proyecto::class, 'cliente_id');
     }
 }

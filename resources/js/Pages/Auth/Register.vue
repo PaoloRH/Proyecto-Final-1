@@ -16,41 +16,44 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Registro" />
+  <Head title="Registro | TecnoSoluciones S.A." />
 
   <main class="container">
     <!-- Lado izquierdo -->
     <section class="brand-card">
       <div class="logo">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Logo con degradado corporativo -->
+        <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#2563eb" />
-              <stop offset="1" stop-color="#10b981" />
+              <stop offset="0" stop-color="#36C9A9" />
+              <stop offset="1" stop-color="#4277BD" />
             </linearGradient>
           </defs>
           <rect width="100" height="100" rx="18" fill="url(#g)" />
-          <circle cx="50" cy="50" r="18" fill="#ffffff" opacity="0.9" />
+          <path d="M30 50 L50 30 L70 50 L50 70 Z" fill="#ffffff" opacity="0.9" />
         </svg>
 
         <div>
-          <div class="brand-title">Gestor de Notas</div>
-          <div class="brand-sub">Registro de nuevo usuario</div>
+          <div class="brand-title">TECNOSOLUCIONES S.A.</div>
+          <div class="brand-sub">Registro de nuevos usuarios</div>
         </div>
       </div>
 
       <p class="hero">
-        Crea tu cuenta para acceder al sistema de gestión académica 📘
+        Únete a nuestra plataforma 💡<br />
+        Gestiona tus proyectos y clientes de forma eficiente y moderna.
       </p>
 
       <p class="foot-note">
-        © {{ new Date().getFullYear() }} Gestor de Notas — Aprender con estilo.
+        © {{ new Date().getFullYear() }} TecnoSoluciones S.A. —  
+        Innovación y gestión eficiente.
       </p>
     </section>
 
     <!-- Formulario -->
     <section class="form-card">
-      <h1>Registro</h1>
+      <h1>Crear cuenta</h1>
 
       <form @submit.prevent="submit" novalidate>
         <div>
@@ -63,7 +66,6 @@ const submit = () => {
             placeholder="Nombre completo"
             required
             autofocus
-            autocomplete="name"
           />
           <div v-if="form.errors.name" class="error">{{ form.errors.name }}</div>
         </div>
@@ -75,9 +77,8 @@ const submit = () => {
             type="email"
             v-model="form.email"
             class="input"
-            placeholder="correo@dominio.com"
+            placeholder="usuario@tecnosoluciones.cc"
             required
-            autocomplete="username"
           />
           <div v-if="form.errors.email" class="error">{{ form.errors.email }}</div>
         </div>
@@ -91,7 +92,6 @@ const submit = () => {
             class="input"
             placeholder="••••••••"
             required
-            autocomplete="new-password"
           />
           <div v-if="form.errors.password" class="error">{{ form.errors.password }}</div>
         </div>
@@ -105,7 +105,6 @@ const submit = () => {
             class="input"
             placeholder="••••••••"
             required
-            autocomplete="new-password"
           />
           <div v-if="form.errors.password_confirmation" class="error">
             {{ form.errors.password_confirmation }}
@@ -113,15 +112,9 @@ const submit = () => {
         </div>
 
         <div class="mt-6 flex items-center justify-between">
-          <Link href="/login" class="link">
-            ¿Ya tienes cuenta?
-          </Link>
+          <Link href="/login" class="link">¿Ya tienes cuenta?</Link>
 
-          <button
-            type="submit"
-            class="btn"
-            :disabled="form.processing"
-          >
+          <button type="submit" class="btn" :disabled="form.processing">
             {{ form.processing ? 'Registrando...' : 'Registrar' }}
           </button>
         </div>
@@ -132,152 +125,205 @@ const submit = () => {
 
 <style>
 :root {
-  --primary: #003366;  /* Azul SENATI institucional */
-  --secondary: #2563eb; /* Azul moderno */
-  --accent: #f97316;   /* Naranja energético */
-  --neutral: #e5e7eb;
-  --text: #1e293b;
-  --card-bg: rgba(255, 255, 255, 0.15);
-  --radius: 14px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  font-family: 'Inter', system-ui, sans-serif;
+  --c1: #4c1b88;
+  --c2: #4277BD;
+  --c3: #36C9A9;
+  --c4: #105293;
+  --white: #ffffff;
+  --radius: 16px;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  font-family: 'Poppins', system-ui, sans-serif;
 }
 
-body {
+html, body {
+  height: 100%;
+  width: 100%;
   margin: 0;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  background-size: 400% 400%;
-  animation: gradientShift 16s ease infinite;
-  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  background: linear-gradient(-78deg, var(--c1), var(--c2), var(--c3), var(--c4));
+  background-size: 300% 300%;
+  animation: bgmove 12s ease infinite;
+  overflow: hidden;
+  color: var(--white);
 }
 
-@keyframes gradientShift {
+@keyframes bgmove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 100px 100px;
+  z-index: 0;
+  animation: float 60s linear infinite;
+}
+@keyframes float {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-100px, -100px); }
+}
+
 .container {
-  width: 100%;
-  max-width: 960px;
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 420px 1fr;
-  gap: 32px;
+  gap: 36px;
   align-items: center;
-  backdrop-filter: blur(18px);
+  max-width: 980px;
+  width: 100%;
   padding: 20px;
 }
 
+/* Tarjeta izquierda */
 .brand-card {
-  background: var(--card-bg);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(16px);
   border-radius: var(--radius);
   padding: 40px;
   box-shadow: var(--shadow);
-  color: #fff;
+  color: #e0f2f1;
+  transition: all 0.3s ease;
 }
+.brand-card:hover {
+  transform: translateY(-4px);
+}
+
 .logo {
   display: flex;
   align-items: center;
   gap: 14px;
 }
+.logo-svg {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 0 10px rgba(54,201,169,0.8));
+}
 .brand-title {
   font-size: 22px;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
 }
 .brand-sub {
-  color: #dbeafe;
+  color: #cce4ff;
   font-size: 14px;
 }
-.hero { font-size: 15px; color: #f1f5f9; }
-.foot-note { font-size: 12px; color: #cbd5e1; margin-top: auto; }
 
-.form-card {
-  background: #ffffffcc;
-  border-radius: var(--radius);
-  padding: 36px;
-  box-shadow: var(--shadow);
-  min-width: 380px;
+.hero {
+  font-size: 15px;
+  line-height: 1.6;
 }
+
+.foot-note {
+  font-size: 12px;
+  color: #cdeff0;
+  margin-top: auto;
+}
+
+/* Formulario */
+.form-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(24px);
+  border-radius: var(--radius);
+  padding: 40px;
+  box-shadow: var(--shadow);
+  color: #2b2b2b;
+  min-width: 380px;
+  transition: all 0.3s ease;
+}
+.form-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(76, 27, 136, 0.3);
+}
+
 h1 {
-  margin-bottom: 20px;
+  text-align: center;
   font-size: 26px;
   font-weight: 700;
-  color: var(--primary);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, var(--c2), var(--c3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
 }
 
+/* Inputs */
 label {
   display: block;
   font-size: 14px;
-  color: #374151;
+  color: var(--c1);
   margin-bottom: 6px;
 }
 .input {
   width: 100%;
-  background: #fff;
-  border: 1px solid #cbd5e1;
-  padding: 12px 14px;
+  border: 1px solid rgba(66,119,189,0.4);
   border-radius: 10px;
+  padding: 12px;
   font-size: 15px;
-  color: #1e293b;
   transition: all 0.25s ease;
 }
 .input:focus {
-  border-color: var(--secondary);
-  box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+  border-color: var(--c3);
+  box-shadow: 0 0 10px rgba(54,201,169,0.3);
   outline: none;
 }
 
+/* Botón */
 .btn {
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  color: #fff;
+  background: linear-gradient(90deg, var(--c2), var(--c3));
+  color: var(--white);
   font-weight: 600;
-  padding: 12px 20px;
+  padding: 12px 16px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  font-size: 16px;
   transition: all 0.25s ease;
+  box-shadow: 0 4px 18px rgba(66, 119, 189, 0.4);
 }
 .btn:hover {
-  background: var(--accent);
   transform: scale(1.03);
-  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.4);
+  box-shadow: 0 6px 22px rgba(66, 119, 189, 0.6);
 }
 .btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+  opacity: 0.6;
 }
 
+/* Enlace */
 .link {
-  color: var(--secondary);
-  text-decoration: underline;
-  font-size: 14px;
+  color: var(--c3);
+  font-weight: 500;
+  text-decoration: none;
 }
 .link:hover {
-  color: var(--accent);
+  text-decoration: underline;
 }
 
+/* Error */
 .error {
-  color: #dc2626;
+  color: #c62828;
   font-size: 13px;
   margin-top: 6px;
 }
 
+/* Responsive */
 @media (max-width: 880px) {
-  .container { grid-template-columns: 1fr; }
-  .brand-card { order: 2; text-align: center; }
-  .form-card { order: 1; min-width: unset; }
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .brand-card {
+    order: 2;
+    text-align: center;
+  }
+  .form-card {
+    order: 1;
+    min-width: unset;
+  }
 }
 </style>
-
-
-
-
-

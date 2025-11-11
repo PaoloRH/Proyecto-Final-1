@@ -12,10 +12,6 @@ use App\Http\Controllers\ReportePdfController;
 |--------------------------------------------------------------------------
 | Página principal
 |--------------------------------------------------------------------------
-|
-| Si el usuario está autenticado, se le redirige al panel principal (Welcome).
-| Si no, se le envía al formulario de login.
-|
 */
 
 Route::get('/', function () {
@@ -27,16 +23,15 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Rutas protegidas (solo para usuarios autenticados)
+| Rutas protegidas (solo usuarios autenticados)
 |--------------------------------------------------------------------------
 */
-
 Route::middleware(['auth'])->group(function () {
 
-    // Página principal post-login (usa el controlador WelcomeController)
+    // Página principal post-login
     Route::get('/welcome', [WelcomeController::class, 'index'])->name('welcome');
 
-    // 🔹 Grupo de rutas para clientes
+    // 🔹 Clientes
     Route::prefix('clientes')->name('clientes.')->group(function () {
         Route::get('/', [ClientesController::class, 'index'])->name('index');
         Route::get('/create', [ClientesController::class, 'create'])->name('create');
@@ -48,28 +43,37 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // 🔹 Proyectos
-    Route::get('/proyectos/index', [ProyectosController::class, 'index'])->name('proyectos.index');
-    Route::get('/proyectos/simulacion', [ProyectosController::class, 'simulacion'])->name('proyectos.simulacion');
-    Route::post('/proyectos/simulacion', [ProyectosController::class, 'calcularSimulacion'])->name('proyectos.simulacion.calcular');
-});
+    Route::prefix('proyectos')->name('proyectos.')->group(function () {
+        Route::get('/', [ProyectosController::class, 'index'])->name('index');
+        Route::get('/create', [ProyectosController::class, 'create'])->name('create');
+        Route::post('/', [ProyectosController::class, 'store'])->name('store');
+        Route::get('/{proyecto}', [ProyectosController::class, 'show'])->name('show');
+        Route::get('/{proyecto}/edit', [ProyectosController::class, 'edit'])->name('edit');
+        Route::put('/{proyecto}', [ProyectosController::class, 'update'])->name('update');
+        Route::delete('/{proyecto}', [ProyectosController::class, 'destroy'])->name('destroy');
+    });
+
+    // 📄 PDF (solo autenticados)
+    Route::get('/pdf/clientes', [ReportePdfController::class, 'clientes'])->name('pdf.clientes');
+
+    // 📄 PDF individual por cliente
+    Route::get('/pdf/clientes/{id}', [ReportePdfController::class, 'clienteIndividual'])->name('pdf.cliente');
+
+}); // <-- 👈 CIERRE correcto del grupo protegido
+
 
 /*
 |--------------------------------------------------------------------------
-| Rutas de autenticación (login, logout)
+| Rutas de autenticación (públicas)
 |--------------------------------------------------------------------------
 */
-
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
-| Carga del sistema de autenticación predeterminado
+| Autenticación predeterminada
 |--------------------------------------------------------------------------
 */
-
 require __DIR__ . '/auth.php';
-
-// Ruta para generar PDF
-Route::get('/pdf/clientes', [ReportePdfController::class, 'clientes'])->name('pdf.clientes');

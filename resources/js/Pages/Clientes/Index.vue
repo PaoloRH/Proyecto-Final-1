@@ -13,36 +13,31 @@ const logout = () => {
 </script>
 
 <template>
-  <div
-    class="min-h-screen flex flex-col items-center px-6 py-10 text-white"
-    style="background: linear-gradient(-45deg, #0f172a, #1e1b4b, #3b0764, #450a0a);
-           background-size: 400% 400%;
-           animation: gradientShift 12s ease infinite;"
-  >
+  <div class="container min-h-screen flex flex-col items-center px-6 py-10 text-white">
     <!-- Encabezado -->
     <header
       class="flex items-center justify-between w-full max-w-6xl px-6 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md rounded-t-2xl"
     >
       <h1 class="text-3xl font-extrabold tracking-wide text-yellow-300 drop-shadow-lg">
-        🎓 Listado de Clientes
+        ⚙️ Listado de Clientes
       </h1>
 
       <div class="flex items-center gap-3">
-        <!-- 📄 Exportar PDF -->
+        <!-- 📄 Exportar todos los clientes -->
         <a
           href="/pdf/clientes"
           target="_blank"
           class="bg-gradient-to-r from-green-600 to-emerald-500 hover:from-emerald-500 hover:to-green-600 text-white font-semibold px-5 py-2 rounded-xl shadow-md hover:shadow-green-400/40 transition-all duration-200 flex items-center gap-2"
         >
-          🧾 Exportar PDF
+          🧾 Exportar PDF (Todos)
         </a>
 
         <!-- Enlace a Proyectos -->
         <Link
-          href="/proyectos/index"
+          :href="route('proyectos.index')"
           class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-blue-600 hover:to-sky-500 text-white font-semibold px-5 py-2 rounded-xl shadow-md hover:shadow-blue-400/40 transition-all duration-200 flex items-center gap-2"
         >
-          📘 Ver Proyectos
+          🖥️ Ver Proyectos
         </Link>
 
         <!-- Nuevo Cliente -->
@@ -90,8 +85,8 @@ const logout = () => {
             <td class="px-4 py-3">{{ cli.telefono || '–' }}</td>
             <td class="px-4 py-3">{{ cli.direccion || '–' }}</td>
 
-            <td class="px-4 py-3 text-center flex justify-center gap-2">
-              <!-- Editar -->
+            <td class="px-4 py-3 text-center flex justify-center flex-wrap gap-2">
+              <!-- ✏️ Editar -->
               <Link
                 :href="`/clientes/edit/${cli.id}`"
                 class="bg-gradient-to-r from-yellow-500 to-orange-400 hover:from-orange-500 hover:to-yellow-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-yellow-400/40 transition-all"
@@ -99,7 +94,7 @@ const logout = () => {
                 ✏️ Editar
               </Link>
 
-              <!-- Eliminar -->
+              <!-- 🗑️ Eliminar -->
               <Link
                 :href="`/clientes/delete/${cli.id}`"
                 class="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-red-400/40 transition-all"
@@ -107,13 +102,22 @@ const logout = () => {
                 🗑️ Eliminar
               </Link>
 
-              <!-- Ver proyectos del cliente -->
+              <!-- 🖥️ Ver proyectos -->
               <Link
-                :href="`/proyectos/index?cliente_id=${cli.id}`"
+                :href="route('proyectos.index', { cliente_id: cli.id })"
                 class="bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-cyan-500 hover:to-sky-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-cyan-400/40 transition-all"
               >
-                📄 Ver Proyectos
+                🖥️ Ver Proyectos
               </Link>
+
+              <!-- 🧾 Exportar PDF individual -->
+              <a
+                :href="`/pdf/clientes/${cli.id}`"
+                target="_blank"
+                class="bg-gradient-to-r from-green-600 to-lime-500 hover:from-lime-500 hover:to-green-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-green-400/40 transition-all"
+              >
+                📑 PDF
+              </a>
             </td>
           </tr>
         </tbody>
@@ -136,6 +140,12 @@ const logout = () => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+  background: linear-gradient( -78deg, #4c1b88, #4277BD, #3A9181, #105293);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
 }
 
 .animate-fadeIn {

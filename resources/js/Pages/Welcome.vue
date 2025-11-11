@@ -11,6 +11,7 @@ const showToast = ref(false)
 
 const logout = () => {
   if (processing.value) return
+
   processing.value = true
 
   router.post('/logout', {}, {
@@ -29,30 +30,37 @@ const logout = () => {
 </script>
 
 <template>
-  <Head title="Bienvenido" />
+  <Head title="Panel | TecnoSoluciones S.A." />
 
-  <!-- Fondo animado -->
-  <div id="app-background" class="min-h-screen flex flex-col font-sans text-white">
+  <!-- Fondo dinámico -->
+  <div id="app-background" class="min-h-screen flex flex-col font-sans text-white relative overflow-hidden">
 
     <!-- Toast -->
     <transition name="fade">
       <div
         v-if="showToast"
-        class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium animate-fadeIn z-50"
+        class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 text-sm font-medium animate-fadeIn z-50"
       >
         ✅ Sesión cerrada correctamente
       </div>
     </transition>
 
     <!-- Header -->
-    <header class="flex items-center justify-between px-8 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md">
+    <header class="flex items-center justify-between px-8 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md z-20">
       <div class="flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-10 h-10 text-yellow-300 drop-shadow-lg">
-          <circle cx="32" cy="32" r="30" fill="currentColor" opacity="0.15" />
-          <path d="M16 36l8 8 24-24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Logo con degradado -->
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-10 h-10">
+          <defs>
+            <linearGradient id="g2" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#00b894"/>
+              <stop offset="1" stop-color="#009975"/>
+            </linearGradient>
+          </defs>
+          <rect width="100" height="100" rx="18" fill="url(#g2)" />
+          <path d="M30 50 L50 30 L70 50 L50 70 Z" fill="#e8f5e9" opacity="0.9" />
         </svg>
         <h1 class="text-2xl font-extrabold tracking-wide">
-          <span class="text-yellow-300">Gestor</span> de Proyectos
+          <span class="text-emerald-300">TecnoSoluciones</span> S.A.
         </h1>
       </div>
 
@@ -73,29 +81,30 @@ const logout = () => {
     </header>
 
     <!-- Main -->
-    <main class="flex-grow flex flex-col justify-center items-center px-6 py-10">
-      <div class="text-center bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 w-[90%] md:w-[600px] animate-fadeIn">
-        <h2 class="text-4xl font-extrabold mb-6 drop-shadow-md">
-          🌙 ¡Bienvenido de nuevo!
+    <main class="flex-grow flex flex-col justify-center items-center px-6 py-10 relative z-10">
+      <div class="text-center bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 w-[90%] md:w-[650px] animate-fadeIn">
+        <h2 class="text-4xl font-extrabold mb-6 drop-shadow-md text-emerald-200">
+          💼 ¡Bienvenido a TecnoSoluciones S.A.!
         </h2>
+        <p class="text-white/80 mb-6">
+          Plataforma de gestión inteligente — clientes, proyectos y rendimiento en tiempo real.  
+        </p>
 
         <div class="flex flex-col gap-6 mt-4">
           <a
             href="/clientes"
-            class="bg-gradient-to-r from-blue-700 to-indigo-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold py-4 rounded-xl shadow-md hover:shadow-blue-400/40 transition-all transform hover:-translate-y-1 hover-glow flex items-center justify-center gap-3 text-lg"
+            class="bg-gradient-to-r from-emerald-600 to-green-500 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-4 rounded-xl shadow-md hover:shadow-emerald-400/40 transition-all transform hover:-translate-y-1 hover-glow flex items-center justify-center gap-3 text-lg"
           >
-            🎓 <span>Clientes</span>
+            👥 <span>Gestión de Clientes</span>
           </a>
         </div>
 
-        
-
-        <!-- Lista de últimos 10 usuarios -->
+        <!-- Lista de usuarios -->
         <div class="mt-10 bg-white/10 rounded-2xl p-6 shadow-lg border border-white/10">
-          <h3 class="text-xl font-bold mb-4 text-yellow-300">👥 Últimos usuarios registrados</h3>
+          <h3 class="text-xl font-bold mb-4 text-emerald-300">🧑‍💻 Últimos usuarios registrados</h3>
 
           <table v-if="activeUsers && activeUsers.length" class="w-full text-sm text-left border-collapse">
-            <thead class="border-b border-white/20 text-yellow-200 uppercase text-xs">
+            <thead class="border-b border-white/20 text-emerald-200 uppercase text-xs">
               <tr>
                 <th class="py-2 px-3">#</th>
                 <th class="py-2 px-3">Nombre</th>
@@ -121,20 +130,22 @@ const logout = () => {
         </div>
 
         <p class="text-sm text-white/60 mt-10">
-          © {{ new Date().getFullYear() }} — <span class="text-violet-400 font-medium">Gestor de Proyectos</span><br />
-          Todos los derechos reservados.
+          © {{ new Date().getFullYear() }} — <span class="text-emerald-300 font-medium">TecnoSoluciones S.A.</span><br />
+          Innovación y gestión digital empresarial.
         </p>
       </div>
     </main>
+
   </div>
 </template>
 
 <style>
-/* Fondo animado tipo SENATI */
+/* Fondo dinámico degradado verde-tecnológico */
 #app-background {
-  background: linear-gradient(-45deg, #2563eb, #3b82fa, #1e40af, #77aac7ad);
+  background: linear-gradient( -78deg,#4c1b88, #4277BD,#36C9A9, #105293);
   background-size: 400% 400%;
   animation: gradientShift 12s ease infinite;
+  position: relative;
 }
 
 /* Animaciones */
@@ -155,7 +166,7 @@ const logout = () => {
 
 /* Glow hover */
 .hover-glow:hover {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 20px rgba(0, 184, 148, 0.4);
   transform: translateY(-2px);
 }
 

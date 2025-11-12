@@ -127,6 +127,26 @@ html, body {
 </style>
 
 <style scoped>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* 👈 evita espacio blanco lateral */
+}
+
+.container {
+  min-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(-78deg, #4c1b88, #4277BD, #3A9181, #105293);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -138,20 +158,7 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.container {
-  /* Fondo con degradado animado */
-  background: linear-gradient( -78deg, #4c1b88, #4277BD, #3A9181, #105293);
-  background-size: 400% 400%;
-  /* Corrección: Combinar animaciones con coma */
-  animation: gradientShift 12s ease infinite, fadeIn 0.8s ease-out;
-  
-  /* Aseguramos que ocupe toda la pantalla (aunque min-h-screen de Tailwind ya lo hace) */
-  min-height: 100vh;
-  width: 100%;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out;
 }
 </style>

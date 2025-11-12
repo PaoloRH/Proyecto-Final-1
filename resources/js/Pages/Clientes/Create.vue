@@ -95,6 +95,26 @@ const submit = () => {
 </template>
 
 <style scoped>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* 👈 evita espacio blanco lateral */
+}
+
+.container {
+  min-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(-78deg, #4c1b88, #4277BD, #3A9181, #105293);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -104,12 +124,6 @@ const submit = () => {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.container {
-  background: linear-gradient( -78deg, #4c1b88, #4277BD, #298f79, #105293);
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
 }
 
 .animate-fadeIn {

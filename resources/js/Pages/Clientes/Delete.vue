@@ -118,7 +118,7 @@ html, body {
 
 /* Clase para aplicar el fondo y la animación (GLOBAL) */
 .background-animado {
-  background: linear-gradient( -78deg, #4c1b88, #4277BD, #36C9A9, #105293);
+  background: linear-gradient( -78deg, #4c1b88, #4277BD, #298f79, #105293);
   background-size: 400% 400%;
   animation: gradientShift 12s ease infinite;
 }

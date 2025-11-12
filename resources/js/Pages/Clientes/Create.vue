@@ -18,7 +18,7 @@ const submit = () => {
     <!-- Encabezado -->
     <header class="flex items-center justify-between w-full max-w-4xl px-6 py-4 bg-white/10 backdrop-blur-lg border-b border-white/20 shadow-md rounded-t-2xl">
       <h1 class="text-2xl font-extrabold tracking-wide text-yellow-300 drop-shadow-lg">
-        🎓 Registrar Cliente
+        🧑‍💼 Registrar Cliente
       </h1>
 
       <Link
@@ -107,7 +107,7 @@ const submit = () => {
 }
 
 .container {
-  background: linear-gradient( -78deg, #4c1b88, #4277BD, #36C9A9, #105293);
+  background: linear-gradient( -78deg, #4c1b88, #4277BD, #298f79, #105293);
   background-size: 400% 400%;
   animation: gradientShift 12s ease infinite;
 }

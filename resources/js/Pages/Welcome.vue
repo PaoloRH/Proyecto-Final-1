@@ -84,7 +84,7 @@ const logout = () => {
     <main class="flex-grow flex flex-col justify-center items-center px-6 py-10 relative z-10">
       <div class="text-center bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl border border-white/20 w-[90%] md:w-[650px] animate-fadeIn">
         <h2 class="text-4xl font-extrabold mb-6 drop-shadow-md text-emerald-200">
-          💼 ¡Bienvenido a TecnoSoluciones S.A.!
+           ¡Bienvenido a TecnoSoluciones S.A.!
         </h2>
         <p class="text-white/80 mb-6">
           Plataforma de gestión inteligente — clientes, proyectos y rendimiento en tiempo real.  

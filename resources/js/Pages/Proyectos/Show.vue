@@ -110,7 +110,7 @@ body {
 }
 
 .container {
-  background: linear-gradient(-78deg, #4c1b88, #4277bd, #3a9181, #105293);
+  background: linear-gradient(-78deg, #4c1b88, #4277bd, #298f79, #105293);
   background-size: 400% 400%;
   animation: gradientShift 12s ease infinite, fadeIn 0.8s ease-out;
   min-height: 100vh;
